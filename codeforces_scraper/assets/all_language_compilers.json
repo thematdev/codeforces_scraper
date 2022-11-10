@@ -1,0 +1,182 @@
+[
+    {
+        "id": 43,
+        "name": "GNU GCC C11 5.1.0",
+        "extensions": [".c"]
+    },
+    {
+        "id": 80,
+        "name": "Clang++20 Diagnostics",
+        "extensions": [".cpp"]
+    },
+    {
+        "id": 52,
+        "name": "Clang++17 Diagnostics",
+        "extensions": [".cpp"]
+    },
+    {
+        "id": 50,
+        "name": "GNU G++14 6.4.0",
+        "extensions": [".cpp"]
+    },
+    {
+        "id": 54,
+        "name": "GNU G++17 7.3.0",
+        "extensions": [".cpp"]
+    },
+    {
+        "id": 73,
+        "name": "GNU G++20 11.2.0 (64 bit, winlibs)",
+        "extensions": [".cpp"]
+    },
+    {
+        "id": 59,
+        "name": "Microsoft Visual C++ 2017",
+        "extensions": [".cpp"]
+    },
+    {
+        "id": 61,
+        "name": "GNU G++17 9.2.0 (64 bit, msys 2)",
+        "extensions": [".cpp"]
+    },
+    {
+        "id": 65,
+        "name": "C# 8, .NET Core 3.1",
+        "extensions": [".cs"]
+    },
+    {
+        "id": 79,
+        "name": "C# 10, .NET SDK 6.0",
+        "extensions": [".cs"]
+    },
+    {
+        "id": 9,
+        "name": "C# Mono 6.8",
+        "extensions": [".cs"]
+    },
+    {
+        "id": 28,
+        "name": "D DMD32 v2.091.0",
+        "extensions": [".d"]
+    },
+    {
+        "id": 32,
+        "name": "Go 1.19",
+        "extensions": [".go"]
+    },
+    {
+        "id": 12,
+        "name": "Haskell GHC 8.10.1",
+        "extensions": [".hs"]
+    },
+    {
+        "id": 60,
+        "name": "Java 11.0.6",
+        "extensions": [".java"]
+    },
+    {
+        "id": 74,
+        "name": "Java 17 64bit",
+        "extensions": [".java"]
+    },
+    {
+        "id": 36,
+        "name": "Java 1.8.0_241",
+        "extensions": [".java"]
+    },
+    {
+        "id": 48,
+        "name": "Kotlin 1.4.31",
+        "extensions": [".kt"]
+    },
+    {
+        "id": 72,
+        "name": "Kotlin 1.5.31",
+        "extensions": [".kt"]
+    },
+    {
+        "id": 77,
+        "name": "Kotlin 1.6.10",
+        "extensions": [".kt"]
+    },
+    {
+        "id": 19,
+        "name": "OCaml 4.02.1",
+        "extensions": []
+    },
+    {
+        "id": 3,
+        "name": "Delphi 7",
+        "extensions": [".pas"]
+    },
+    {
+        "id": 4,
+        "name": "Free Pascal 3.0.2",
+        "extensions": [".pas"]
+    },
+    {
+        "id": 51,
+        "name": "PascalABC.NET 3.4.2",
+        "extensions": [".pas"]
+    },
+    {
+        "id": 13,
+        "name": "Perl 5.20.1",
+        "extensions": [".pl"]
+    },
+    {
+        "id": 6,
+        "name": "PHP 8.1.7",
+        "extensions": [".php"]
+    },
+    {
+        "id": 7,
+        "name": "Python 2.7.18",
+        "extensions": [".py"]
+    },
+    {
+        "id": 31,
+        "name": "Python 3.8.10",
+        "extensions": [".py"]
+    },
+    {
+        "id": 40,
+        "name": "PyPy 2.7.13 (7.3.0)",
+        "extensions": [".py"]
+    },
+    {
+        "id": 41,
+        "name": "PyPy 3.6.9 (7.3.0)",
+        "extensions": [".py"]
+    },
+    {
+        "id": 70,
+        "name": "PyPy 3.9.10 (7.3.9, 64bit)",
+        "extensions": [".py"]
+    },
+    {
+        "id": 67,
+        "name": "Ruby 3.0.0",
+        "extensions": [".rb"]
+    },
+    {
+        "id": 75,
+        "name": "Rust 1.64.0 (2021)",
+        "extensions": [".rs"]
+    },
+    {
+        "id": 20,
+        "name": "Scala 2.12.8",
+        "extensions": []
+    },
+    {
+        "id": 34,
+        "name": "JavaScript V8 4.8.0",
+        "extensions": [".js"]
+    },
+    {
+        "id": 55,
+        "name": "Node.js 12.16.3",
+        "extensions": [".js"]
+    }
+]
