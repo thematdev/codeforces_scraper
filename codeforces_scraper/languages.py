@@ -22,11 +22,14 @@ ALL_LANGUAGE_COMPILERS = parse_obj_as(
 )
 
 
+def compiler_by_name(name: str) -> LanguageCompiler:
+    """Return compiler model by name"""
+    return next(filter(lambda comp: comp.name == name, ALL_LANGUAGE_COMPILERS))
+
+
 def compiler_by_id(id: int) -> LanguageCompiler:
     """Return compiler model by id"""
-    for comp in ALL_LANGUAGE_COMPILERS:
-        if comp.id == id:
-            return comp
+    return next(filter(lambda comp: comp.id == id, ALL_LANGUAGE_COMPILERS))
 
 
 def all_compilers_by_ext(extension: str) -> Iterable[LanguageCompiler]:
