@@ -2,7 +2,7 @@
 
 Codeforces scraper provides a gentle way to interact with Codeforces
 
-```
+```python3
 from codeforces_scraper import Scraper
 from codeforces_scraper.languages import some_compiler_by_ext
 from getpass import getpass
