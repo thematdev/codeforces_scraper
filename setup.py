@@ -6,7 +6,7 @@ setuptools.setup(
         author='thematdev',
         author_email='thematdev@thematdev.org',
         description='Utility to do actions on codeforces',
-        packages=setuptools.find_packages(),
+        packages=['codeforces_scraper', 'codeforces_scraper.assets'],
         install_requires=[
             'bs4',
             'lxml',
