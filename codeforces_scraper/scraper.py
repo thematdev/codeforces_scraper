@@ -7,7 +7,6 @@ from codeforces_scraper.utils import get_token, get_messages, create_jar
 from codeforces_scraper.models import Submission, Problem
 from typing import List
 
-from functools import reduce
 
 BASE_URL = 'https://codeforces.com'
 
@@ -21,7 +20,7 @@ class MessagedScrapError(ScraperError):
         self.codeforces_message = codeforces_message
 
     def __str__(self):
-        f'Codeforces returned message, which is not considered as good: {self.codeforces_message}'
+        return f'Codeforces returned message, which is not considered as good: {self.codeforces_message}'
 
 
 class CodeforcesAPIException(ScraperError):
@@ -145,18 +144,6 @@ class Scraper:
         }
         self.post(url, data=payload)
 
-    def scrap_submissions(self, contest_id: int) -> List[Submission]:
-        if self.current_user is None:
-            raise ScraperError('Submitting while not logged in')
-        url = f'contest/{contest_id}/my'
-        page_response = self.get(url)
-        soup = bs(page_response.text, 'lxml')
-        tables = soup.find_all('table', attrs={'class': 'status-frame-datatable'})
-        tbodys = [table.find('tbody') for table in tables]
-        rows = [tbody.find_all('tr', attrs={'class': 'highlighted-row'}) for tbody in tbodys]
-        rows = reduce(lambda x, y: x + y, rows)
-        return rows
-
     def get_submission_source(self, contest_id: int, submission_id: int) -> str:
         """Get source code of submission by ``contest_id`` and ``submission_id``"""
         url = f'contest/{contest_id}/submission/{submission_id}'
@@ -208,7 +195,13 @@ class Scraper:
 
     def api_request(self, method: str, params):
         """Make a request to Codeforces API with ``params``"""
-        response = self.get(f'api/{method}', params=params).json()
+        resp = self.get(f'api/{method}')
+        try:
+            response = resp.json()
+        except ValueError:
+            # It actually had already happened when Mike
+            # decided to turn off API and return HTML instead
+            raise ScraperError('API returned invalid JSON')
         if response['status'] == 'FAILED':
             raise CodeforcesAPIException(response['comment'])
         return response['result']
