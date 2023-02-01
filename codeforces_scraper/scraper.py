@@ -195,7 +195,7 @@ class Scraper:
 
     def api_request(self, method: str, params):
         """Make a request to Codeforces API with ``params``"""
-        resp = self.get(f'api/{method}')
+        resp = self.get(f'api/{method}', params=params)
         try:
             response = resp.json()
         except ValueError:
