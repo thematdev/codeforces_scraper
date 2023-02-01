@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+# Minimalistic script to interact with Codeforces
+# Written by thematdev in 2023
+
+
+load_rc() {
+    if [[ -e $1 ]]; then source $1; fi;
+}
+
+# Load .rc files
+load_rc ~/.config/termforces/termforces.rc
+load_rc ../termforces.rc
+load_rc termforces.rc
+
+login() {
+    if [[ $TF_PASS_CMD ]]
+    then
+        python3 -m termforces login "$1" --session-file "~/.config/termforces/termforces_cookies.json" --no-getpass <<< "$($TF_PASS_CMD)"
+    else
+        python3 -m termforces login "$1" --session-file "~/.config/termforces/termforces_cookies.json"
+    fi
+}
+
+whoami() {
+    python3 -m termforces whoami
+}
+
+submit() {
+    source_file=$1
+    # Calling from either parent or child directory
+    if [ $(dirname $1) = "." ]; then
+        p=$(pwd)
+    else
+        p=$(dirname $1)
+    fi
+    problem_index=${p:0-1}
+    python3 -m termforces submit --contest-id $contest_id $problem_index $source_file
+}
+
+results() {
+    python3 -m termforces results-my --contest-id $contest_id
+}
+
+strap() {
+    while [[ $# -gt 0 ]]
+    do
+        key="$1"
+        case $key in
+            -c|--contest-id)
+                contest_id="$2"
+                shift
+                shift
+                ;;
+            -i|--indices)
+                indices="$2"
+                shift
+                shift
+                ;;
+            -t|--template)
+                template="$2"
+                shift
+                shift
+                ;;
+            *)
+                POSITIONAL+=("$1")
+                shift
+                ;;
+        esac
+    done
+    read -a indices_arr <<< $indices
+    if [[ ! -d $template ]]; then echo "Template directory not found or not specified, will create empty"; fi;
+    for index in "${indices_arr[@]}"
+    do
+        if [[ -d $template ]]
+        then
+            cp -r $template problem$index
+        else
+            mkdir problem$index
+        fi
+    done
+    echo "contest_id=$contest_id" >> termforces.rc
+}
+
+"$@"
