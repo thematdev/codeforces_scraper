@@ -8,6 +8,15 @@ MESSAGE_GREP_STRING = r'Codeforces\.showMessage\('
 # TODO: Grep for Codeforces.showMessage(" to find message, that has been sent
 
 
+def unfuck_multitest_sample(sample_input: str) -> str:
+    div_class_regex = '<div class="[a-zA-Z0-9- ]*">'
+    sample_input = re.sub(div_class_regex, '', sample_input)
+    sample_input = re.sub('</div>', '\n', sample_input)
+    sample_input = re.sub('<pre>', '', sample_input)
+    sample_input = re.sub('</pre>', '', sample_input)
+    return sample_input
+
+
 def create_jar(str_cookie: str):
     cookies = str_cookie.split(';')
     d = {}
@@ -27,6 +36,7 @@ def get_token(response: Response) -> str:
     return token
 
 
+# FIXME: More robust way to find messages
 def get_messages(response: Response) -> List[str]:
     text = response.text
     return re.findall(fr'{MESSAGE_GREP_STRING}\"(.+?)\"', text)

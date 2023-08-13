@@ -3,8 +3,8 @@ import requests
 from requests import Session
 from bs4 import BeautifulSoup as bs
 
-from codeforces_scraper.utils import get_token, get_messages, create_jar
-from codeforces_scraper.models import Submission, Problem
+from codeforces_scraper.utils import get_token, get_messages, create_jar, unfuck_multitest_sample
+from codeforces_scraper.models import Submission, Problem, Sample
 from typing import List
 
 
@@ -62,7 +62,7 @@ class Scraper:
                 if self.current_user is not None:
                     raise ScraperError('Failed to logout!')
                 return
-    
+
     def get_csrf_token(self):
         """Get csrf token, which is needed
         to make requests by hand
@@ -114,8 +114,10 @@ class Scraper:
             raise ScraperError('Submitting while not logged in')
         url = f'contest/{contest_id}/submit'
         submit_page_response = self.get(url)
-        for message in get_messages(submit_page_response):
-            raise MessagedScrapError(message)
+        # FIXME: Now some pornography is in the messages, which is not displayed and
+        # is not an error
+        # for message in get_messages(submit_page_response):
+        #     raise MessagedScrapError(message)
         token = get_token(submit_page_response)
         payload = {
             'csrf_token': token,
@@ -176,6 +178,16 @@ class Scraper:
             'count': 1
         }
         return self.api_request('contest.standings', params)['problems']
+
+    def get_samples(self, contest_id: int, problem_index: str) -> List[Sample]:
+        url = f'contest/{contest_id}/problem/{problem_index}'
+        page_response = self.get(url)
+        soup = bs(page_response.text, 'lxml')
+        samples = soup.find(attrs={'class': 'sample-tests'}).find(attrs={'class': 'sample-test'})
+        inputs = [unfuck_multitest_sample(str(div_input.find(name='pre')))
+                  for div_input in samples.find_all(attrs={'class': 'input'})]
+        outputs = [div_output.find(name='pre').get_text() for div_output in samples.find_all(attrs={'class', 'output'})]
+        return [Sample(s_in=s_in, s_out=s_out) for (s_in, s_out) in zip(inputs, outputs)]
 
     def get(self, sub_url='', **kwargs):
         """Make a GET request to BASE_URL"""

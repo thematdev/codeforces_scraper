@@ -232,3 +232,8 @@ class RanklistRow(APIModel):
     unsuccessful_hack_count: int
     problem_result: List[ProblemResult]
     last_submission_time_seconds: int
+
+
+class Sample(BaseModel):
+    s_in: str
+    s_out: str
