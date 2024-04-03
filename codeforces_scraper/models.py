@@ -212,7 +212,7 @@ class Hack(APIModel):
     defender: Party
     problem: Problem
     test: Optional[str]
-    judge_protocol = JudgeProtocol
+    judge_protocol: JudgeProtocol
 
 
 class ProblemResult(APIModel):
