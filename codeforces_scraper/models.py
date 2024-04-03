@@ -71,8 +71,8 @@ class APIModel(BaseModel):
 
 class JudgeProtocol(APIModel):
     manual: bool
-    protocol: Optional[str]
-    verdict: Optional[str]
+    protocol: Optional[str] = None
+    verdict: Optional[str] = None
 
 
 class BlogEntry(APIModel):
@@ -81,7 +81,7 @@ class BlogEntry(APIModel):
     creation_time_seconds: int
     author_handle: str
     title: str
-    content: Optional[str]
+    content: Optional[str] = None
     locale: str
     modification_time_seconds: int
     allow_view_history: bool
@@ -95,7 +95,7 @@ class Comment(APIModel):
     commentator_handle: str
     locale: str
     text: str
-    parent_comment_id: Optional[int]
+    parent_comment_id: Optional[int] = None
     rating: int
 
 
@@ -126,26 +126,26 @@ class Member(APIModel):
 
 
 class Problem(APIModel):
-    contest_id: Optional[int]
-    problem_set_name: Optional[str]
+    contest_id: Optional[int] = None
+    problem_set_name: Optional[str] = None
     index: str
     name: str
     type: str
-    points: Optional[float]
-    rating: Optional[int]
+    points: Optional[float] = None
+    rating: Optional[int] = None
     tags: List[str]
 
 
 class User(APIModel):
     handle: str
-    email: Optional[str]
-    vk_id: Optional[str]
-    open_id: Optional[str]
-    first_name: Optional[str]
-    last_name: Optional[str]
-    country: Optional[str]
-    city: Optional[str]
-    organization: Optional[str]
+    email: Optional[str] = None
+    vk_id: Optional[str] = None
+    open_id: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    country: Optional[str] = None
+    city: Optional[str] = None
+    organization: Optional[str] = None
     contribution: int
     rank: str
     rating: int
@@ -162,11 +162,11 @@ class Party(APIModel):
     contest_id: int
     members: List[Member]
     participant_type: str
-    team_id: Optional[int]
-    team_name: Optional[str]
+    team_id: Optional[int] = None
+    team_name: Optional[str] = None
     ghost: bool
-    room: Optional[int]
-    start_time_seconds: Optional[int]
+    room: Optional[int] = None
+    start_time_seconds: Optional[int] = None
 
 
 class Submission(APIModel):
@@ -177,12 +177,12 @@ class Submission(APIModel):
     problem: Problem
     author: Party
     programming_language: str
-    verdict: Optional[Verdict]
+    verdict: Optional[Verdict] = None
     testset: str
     passed_test_count: int
     time_consumed_millis: int
     memory_consumed_bytes: int
-    points: Optional[float]
+    points: Optional[float] = None
 
 
 class Contest(APIModel):
@@ -192,17 +192,17 @@ class Contest(APIModel):
     phase: ContestPhase
     frozen: bool
     duration_seconds: bool
-    start_time_seconds: Optional[int]
-    relative_time_seconds: Optional[int]
-    prepared_by: Optional[str]
-    website_url: Optional[str]
-    description: Optional[str]
-    difficulty: Optional[int]
-    kind: Optional[str]
-    icpc_region: Optional[str]
-    country: Optional[str]
-    city: Optional[str]
-    season: Optional[str]
+    start_time_seconds: Optional[int] = None
+    relative_time_seconds: Optional[int] = None
+    prepared_by: Optional[str] = None
+    website_url: Optional[str] = None
+    description: Optional[str] = None
+    difficulty: Optional[int] = None
+    kind: Optional[str] = None
+    icpc_region: Optional[str] = None
+    country: Optional[str] = None
+    city: Optional[str] = None
+    season: Optional[str] = None
 
 
 class Hack(APIModel):
@@ -211,7 +211,7 @@ class Hack(APIModel):
     hacker: Party
     defender: Party
     problem: Problem
-    test: Optional[str]
+    test: Optional[str] = None
     judge_protocol: JudgeProtocol
 
 

@@ -169,7 +169,7 @@ class Scraper:
             }
         else:
             params = {'contestId': contest_id}
-        return [Submission.parse_obj(x) for x in self.api_request('contest.status', params)]
+        return [Submission.model_validate(x) for x in self.api_request('contest.status', params)]
 
     def get_contest_tasks(self, contest_id: int) -> List[Problem]:
         """Get all tasks in contest with id ``contest_id``"""

@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
         name='codeforces-scraper',
-        version='0.3.2',
+        version='0.4.0',
         author='thematdev',
         author_email='thematdev@thematdev.org',
         description='Utility to do actions on codeforces',
