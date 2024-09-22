@@ -1,13 +1,12 @@
-import requests, ssl, warnings
+import requests
 
 from requests import Session
 from bs4 import BeautifulSoup as bs
 
 from codeforces_scraper.utils import get_token, get_messages, create_jar, unfuck_multitest_sample
+from codeforces_scraper.utils import TLSFPBypassAdapter, brute_pow
 from codeforces_scraper.models import Submission, Problem, Sample
 from typing import List
-from hashlib import sha1
-
 
 BASE_URL = 'https://codeforces.com'
 
@@ -30,20 +29,6 @@ class CodeforcesAPIException(ScraperError):
 
     def __str__(self):
         return f'Request to Codeforces API failed. Comment: {self.comment}'
-
-
-# stolen from https://github.com/psf/requests/issues/6109
-class TLSFPBypassAdapter(requests.adapters.HTTPAdapter):
-    def init_poolmanager(self, *args, **kwargs):
-        with warnings.catch_warnings():
-            warnings.filterwarnings("ignore")
-            ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-            ctx.verify_mode = ssl.CERT_REQUIRED
-            ctx.check_hostname = True
-            ctx.load_default_certs(ssl.Purpose.SERVER_AUTH)
-            ctx.set_alpn_protocols(['http/1.1'])
-        kwargs['ssl_context'] = ctx
-        return super().init_poolmanager(*args, **kwargs)
 
 
 class Scraper:
@@ -109,14 +94,9 @@ class Scraper:
         login_page = self.get('enter')
         if b'<p>Please wait. Your browser is being checked. It may take a few seconds...</p>' in login_page.content:
             pow_suffix = self.session.cookies['pow']
-            idx = 0
-            while True:
-                attempt = '%d_%s'%(idx, pow_suffix)
-                if sha1(attempt.encode('ascii')).hexdigest().startswith('0000'):
-                    break
-                idx += 1
+            pow_solution = brute_pow(pow_suffix)
             del self.session.cookies['pow']
-            self.session.cookies['pow'] = attempt
+            self.session.cookies['pow'] = pow_solution
             login_page = self.get('enter')
         token = get_token(login_page)
         payload = {
