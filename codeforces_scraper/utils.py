@@ -1,4 +1,4 @@
-import requests
+import requests, ssl, warnings
 import re
 from requests import Response
 from bs4 import BeautifulSoup as bs
