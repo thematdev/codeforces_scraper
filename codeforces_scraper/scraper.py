@@ -4,9 +4,9 @@ from requests import Session
 from bs4 import BeautifulSoup as bs
 
 from codeforces_scraper.utils import get_token, get_messages, create_jar, unfuck_multitest_sample
+from codeforces_scraper.utils import TLSFPBypassAdapter, brute_pow
 from codeforces_scraper.models import Submission, Problem, Sample
 from typing import List
-
 
 BASE_URL = 'https://codeforces.com'
 
@@ -39,6 +39,9 @@ class Scraper:
         to which all requests will be sent
         """
         self.session = Session() if create_session else None
+        if create_session:
+            self.session.mount('https://', TLSFPBypassAdapter())
+            self.session.headers['User-Agent'] = 'codeforces_scraper/0.1'
         self.base_url = base_url
         self.current_user = None
 
@@ -88,7 +91,14 @@ class Scraper:
             return
         if self.current_user is not None:
             self.logout()
-        token = get_token(self.get('enter'))
+        login_page = self.get('enter')
+        if b'<p>Please wait. Your browser is being checked. It may take a few seconds...</p>' in login_page.content:
+            pow_suffix = self.session.cookies['pow']
+            pow_solution = brute_pow(pow_suffix)
+            del self.session.cookies['pow']
+            self.session.cookies['pow'] = pow_solution
+            login_page = self.get('enter')
+        token = get_token(login_page)
         payload = {
             'csrf_token': token,
             'action': 'enter',
@@ -175,7 +185,8 @@ class Scraper:
         """Get all tasks in contest with id ``contest_id``"""
         params = {
             'from': 1,
-            'count': 1
+            'count': 1,
+            'contestId': contest_id,
         }
         return self.api_request('contest.standings', params)['problems']
 
